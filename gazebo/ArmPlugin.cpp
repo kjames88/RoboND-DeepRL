@@ -26,9 +26,9 @@
 #define ALLOW_RANDOM true
 #define DEBUG_DQN false
 #define GAMMA 0.999f
-#define EPS_START 0.9f
-#define EPS_END 0.05f
-#define EPS_DECAY 200
+#define EPS_START 0.25f
+#define EPS_END 0.01f
+#define EPS_DECAY 50
 
 /*
 / TODO - Tune the following hyperparameters
@@ -40,7 +40,7 @@
 //#define OPTIMIZER "RMSprop"
 #define OPTIMIZER "Adam"
 #define LEARNING_RATE 0.01f
-#define REPLAY_MEMORY 10000
+#define REPLAY_MEMORY 1000
 #define BATCH_SIZE 128
 #define USE_LSTM false
 #define LSTM_SIZE 32
@@ -50,7 +50,7 @@
 /
 */
 
-#define REWARD_WIN  50.0f
+#define REWARD_WIN  100.0f
 #define REWARD_LOSS -50.0f
 
 // Define Object Names
@@ -104,9 +104,9 @@ ArmPlugin::ArmPlugin() : ModelPlugin(), cameraNode(new gazebo::transport::Node()
 	inputRawWidth    = 0;
 	inputRawHeight   = 0;
 	//actionJointDelta = 0.15f;
-	actionJointDelta = 0.05f;
+	actionJointDelta = 0.1f;
 	actionVelDelta   = 0.1f;
-	maxEpisodeLength = 1000;
+	maxEpisodeLength = 100;
 	episodeFrames    = 0;
 
 	newState         = false;
