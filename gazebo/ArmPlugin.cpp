@@ -31,7 +31,7 @@
 #define EPS_DECAY 50
 
 /*
-/ TODO - Tune the following hyperparameters
+/ Tune the following hyperparameters
 /
 */
 
@@ -46,7 +46,7 @@
 #define LSTM_SIZE 32
 
 /*
-/ TODO - Define Reward Parameters
+/ Define Reward Parameters
 /
 */
 
@@ -104,9 +104,9 @@ ArmPlugin::ArmPlugin() : ModelPlugin(), cameraNode(new gazebo::transport::Node()
 	inputRawWidth    = 0;
 	inputRawHeight   = 0;
 	//actionJointDelta = 0.15f;
-	actionJointDelta = 0.1f;
+	actionJointDelta = 0.025f;
 	actionVelDelta   = 0.1f;
-	maxEpisodeLength = 100;
+	maxEpisodeLength = 500;
 	episodeFrames    = 0;
 
 	newState         = false;
@@ -168,7 +168,7 @@ bool ArmPlugin::createAgent()
 	/
 	*/
 	
-	agent = dqnAgent::Create(INPUT_WIDTH, INPUT_HEIGHT, INPUT_CHANNELS, 2, OPTIMIZER, LEARNING_RATE,
+	agent = dqnAgent::Create(INPUT_WIDTH, INPUT_HEIGHT, INPUT_CHANNELS, 4, OPTIMIZER, LEARNING_RATE,
                                  REPLAY_MEMORY, BATCH_SIZE, GAMMA, EPS_START, EPS_END, EPS_DECAY,
                                  USE_LSTM, LSTM_SIZE, ALLOW_RANDOM, DEBUG_DQN);
 
@@ -265,7 +265,9 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
 		/ Check if there is collision between the arm and object, then issue learning reward
 		/
 		*/
-                bool collisionCheck = (contacts->contact(i).collision1() == COLLISION_ITEM ||
+                bool collisionCheck = (contacts->contact(i).collision1() == COLLISION_ITEM &&
+                                       contacts->contact(i).collision2() == COLLISION_POINT) ||
+                                      (contacts->contact(i).collision1() == COLLISION_POINT &&
                                        contacts->contact(i).collision2() == COLLISION_ITEM);
 	
 		
@@ -357,11 +359,12 @@ bool ArmPlugin::updateAgent()
 	/ Increase or decrease the joint position based on whether the action is even or odd
 	/
         /   Use:  dof joint = action / 2
-        /         increase if action % 2 == 0 else decrease
+        /         increase if action % 2 == 0, decrease if action % 2 == 1
 	*/
-        bool even = (action % 2) == 0;
+        bool mod = (action % 2);
 	float joint = ref[action/2];
-        joint += even ? actionJointDelta : -actionJointDelta;
+        float adj = mod ? -actionJointDelta : actionJointDelta;
+        joint += adj;
 
 	// limit the joint to the specified range
 	if( joint < JOINT_MIN )
@@ -613,14 +616,13 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			if( episodeFrames > 1 )
 			{
 				const float distDelta  = lastGoalDistance - distGoal;
-                                //float rewardRatio = (1.5 - avgGoalDelta) / 1.5;
-                                //rewardRatio = std::min(rewardRatio, (float) 1.0);
-                                //rewardRatio = std::max(rewardRatio, (float) -1.0);
 
 				// compute the smoothed moving average of the delta of the distance to the goal
                                 float alpha = 0.95;
-				avgGoalDelta  = (alpha * avgGoalDelta) + ((1.0 - alpha) * distDelta);
-				rewardHistory = avgGoalDelta;
+				avgGoalDelta  = (alpha * avgGoalDelta) + ((1.0 - alpha) * distGoal);
+                                // Cost:  no distance cost for moving closer to goal
+                                //        penalty -1.0 for each frame
+				rewardHistory = ((distDelta > 0) ? 0.0 : -avgGoalDelta) - 1.0;
 				newReward     = true;	
 			}
 
