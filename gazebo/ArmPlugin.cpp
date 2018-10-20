@@ -25,7 +25,7 @@
 #define INPUT_CHANNELS 3
 #define ALLOW_RANDOM true
 #define DEBUG_DQN false
-#define GAMMA 0.9f
+#define GAMMA 0.999f
 #define EPS_START 0.9f
 #define EPS_END 0.05f
 #define EPS_DECAY 200
@@ -35,12 +35,13 @@
 /
 */
 
-#define INPUT_WIDTH   512
-#define INPUT_HEIGHT  512
-#define OPTIMIZER "RMSprop"
-#define LEARNING_RATE 0.001f
+#define INPUT_WIDTH   64
+#define INPUT_HEIGHT  64
+//#define OPTIMIZER "RMSprop"
+#define OPTIMIZER "Adam"
+#define LEARNING_RATE 0.01f
 #define REPLAY_MEMORY 10000
-#define BATCH_SIZE 8
+#define BATCH_SIZE 128
 #define USE_LSTM false
 #define LSTM_SIZE 32
 
@@ -49,8 +50,8 @@
 /
 */
 
-#define REWARD_WIN  5.0f
-#define REWARD_LOSS -5.0f
+#define REWARD_WIN  50.0f
+#define REWARD_LOSS -50.0f
 
 // Define Object Names
 #define WORLD_NAME "arm_world"
@@ -63,7 +64,7 @@
 #define COLLISION_POINT  "arm::gripperbase::gripper_link"
 
 // Animation Steps
-#define ANIMATION_STEPS 10
+#define ANIMATION_STEPS 1000
 
 // Set Debug Mode
 #define DEBUG false
@@ -102,9 +103,10 @@ ArmPlugin::ArmPlugin() : ModelPlugin(), cameraNode(new gazebo::transport::Node()
 	inputBufferSize  = 0;
 	inputRawWidth    = 0;
 	inputRawHeight   = 0;
-	actionJointDelta = 0.15f;
+	//actionJointDelta = 0.15f;
+	actionJointDelta = 0.05f;
 	actionVelDelta   = 0.1f;
-	maxEpisodeLength = 100;
+	maxEpisodeLength = 1000;
 	episodeFrames    = 0;
 
 	newState         = false;
@@ -426,7 +428,6 @@ bool ArmPlugin::updateJoints()
 
 		animationStep++;
 #endif
-
 		// reset and loop the animation
 		if( animationStep > ANIMATION_STEPS )
 		{
@@ -436,7 +437,7 @@ bool ArmPlugin::updateJoints()
 				testAnimation = false;
 		}
 		else if( animationStep == ANIMATION_STEPS / 2 )
-		{	
+		{
 			ResetPropDynamics();
 		}
 
@@ -582,13 +583,14 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		/ set appropriate Reward for robot hitting the ground.
 		/
 		*/
+
+//printf("gripBBox min x %f y %f z %f; max x %f y %f z %f\n", gripBBox.min.x, gripBBox.min.y, gripBBox.min.z, gripBBox.max.x, gripBBox.max.y, gripBBox.max.z);
                 bool checkGroundContact = (gripBBox.min.z <= groundContact);
 		
 		if(checkGroundContact)
 		{
 						
 			if(DEBUG){printf("GROUND CONTACT, EOE\n");}
-                        printf("gripBBox min z %f prop max z %f\n", gripBBox.min.z, propBBox.max.z);
 
 			rewardHistory = REWARD_LOSS;
 			newReward     = true;
@@ -611,15 +613,14 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			if( episodeFrames > 1 )
 			{
 				const float distDelta  = lastGoalDistance - distGoal;
-                                float rewardRatio = (1.5 - distGoal) / 1.5;
-                                printf("raw rewardRatio = %f\n", rewardRatio);
-                                rewardRatio = std::min(rewardRatio, (float) 1.0);
-                                rewardRatio = std::max(rewardRatio, (float) -1.0);
+                                //float rewardRatio = (1.5 - avgGoalDelta) / 1.5;
+                                //rewardRatio = std::min(rewardRatio, (float) 1.0);
+                                //rewardRatio = std::max(rewardRatio, (float) -1.0);
 
 				// compute the smoothed moving average of the delta of the distance to the goal
                                 float alpha = 0.95;
-				avgGoalDelta  = alpha * avgGoalDelta + (1.0 - alpha) * distDelta;
-				rewardHistory = rewardRatio * 1.0;
+				avgGoalDelta  = (alpha * avgGoalDelta) + ((1.0 - alpha) * distDelta);
+				rewardHistory = avgGoalDelta;
 				newReward     = true;	
 			}
 
