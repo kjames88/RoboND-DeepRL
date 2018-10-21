@@ -26,9 +26,9 @@
 #define ALLOW_RANDOM true
 #define DEBUG_DQN false
 #define GAMMA 0.999f
-#define EPS_START 0.10f
+#define EPS_START 0.25f
 #define EPS_END 0.01f
-#define EPS_DECAY 25
+#define EPS_DECAY 10
 
 /*
 / Tune the following hyperparameters
@@ -50,7 +50,7 @@
 /
 */
 
-#define REWARD_WIN  1000.0f
+#define REWARD_WIN  100.0f
 #define REWARD_LOSS -100.0f
 
 // Define Object Names
@@ -108,7 +108,7 @@ ArmPlugin::ArmPlugin() : ModelPlugin(), cameraNode(new gazebo::transport::Node()
 	//actionJointDelta = 0.15f;
 	actionJointDelta = 0.05f;
 	actionVelDelta   = 0.1f;
-	maxEpisodeLength = 500;
+	maxEpisodeLength = 200;
 	episodeFrames    = 0;
 
 	newState         = false;
@@ -602,7 +602,6 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		/
 		*/
 
-//printf("gripBBox min x %f y %f z %f; max x %f y %f z %f\n", gripBBox.min.x, gripBBox.min.y, gripBBox.min.z, gripBBox.max.x, gripBBox.max.y, gripBBox.max.z);
                 bool checkGroundContact = (gripBBox.min.z <= groundContact) || (jointBBox.min.z <= groundContact);
 		
 		if(checkGroundContact)
@@ -632,12 +631,14 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 			{
 				const float distDelta  = lastGoalDistance - distGoal;
 
+                                float closenessReward = (2.5 - distGoal)/2.5;
 				// compute the smoothed moving average of the delta of the distance to the goal
                                 float alpha = 0.95;
 				avgGoalDelta  = (alpha * avgGoalDelta) + ((1.0 - alpha) * distGoal);
-                                // Cost:  no distance cost for moving closer to goal
-                                //        penalty -1.0 for each frame
-				rewardHistory = ((distDelta > 0) ? 0.0 : -avgGoalDelta) - 1.0;
+
+                                // Reward:  reward for closeness to goal; penalties for moving farther away and for time
+				//rewardHistory = ((distDelta > 0) ? 0.0 : -avgGoalDelta) - 1.0;
+                                rewardHistory = closenessReward - (distDelta < 0 ? 1.0 : 0.0) - 1.0;
 				newReward     = true;	
 			}
 
