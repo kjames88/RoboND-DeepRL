@@ -1,0 +1,8 @@
+part2_success.log
+
+Learning rate reduced from .01 to .001
+
+Uses distance from center bottom of gripper to center top of tube
+Uses squared distance (forgot to sqrt)
+Uses reward (2.5 - distGoal)/2.5 - (distDelta < 0 ? 1.0 : 0.0) - 1.0
+

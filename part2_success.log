@@ -1,0 +1,165 @@
+ 
+configuring gazebo7 plugin paths
+previous GAZEBO_PLUGIN_PATH=
+script directory /home/kjames/catkin_ws/src/RoboND-DeepRL-Project/build/x86_64/bin
+plugin path /home/kjames/catkin_ws/src/RoboND-DeepRL-Project/build/x86_64/bin/../lib
+new GAZEBO_PLUGIN_PATH=/home/kjames/catkin_ws/src/RoboND-DeepRL-Project/build/x86_64/bin/../lib:
+ 
+starting gazebo7 simulator
+[1;32m[Msg] [0m[1;32mWaiting for master.[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mConnected to gazebo master @ [0m[1;32mhttp://127.0.0.1:11345[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mPublicized address: [0m[1;32m192.168.1.10[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mWaiting for master.[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mConnected to gazebo master @ [0m[1;32mhttp://127.0.0.1:11345[0m[1;32m
+[0m[1;32m[0m[1;32m[Msg] [0m[1;32mPublicized address: [0m[1;32m192.168.1.10[0m[1;32m
+[0m[1;32m[0mArmPlugin::ArmPlugin()
+ArmPlugin::Load('arm')
+PropPlugin::Load('tube')
+[deepRL]  use_cuda:       True
+[deepRL]  use_lstm:       0
+[deepRL]  lstm_size:      32
+[deepRL]  input_width:    64
+[deepRL]  input_height:   64
+[deepRL]  input_channels: 3
+[deepRL]  num_actions:    4
+[deepRL]  optimizer:      Adam
+[deepRL]  learning rate:  0.001
+[deepRL]  replay_memory:  10000
+[deepRL]  batch_size:     32
+[deepRL]  gamma:          0.999
+[deepRL]  epsilon_start:  0.9
+[deepRL]  epsilon_end:    0.05
+[deepRL]  epsilon_decay:  200.0
+[deepRL]  allow_random:   1
+[deepRL]  debug_mode:     0
+[deepRL]  creating DQN model instance
+[deepRL]  DQN::__init__()
+[deepRL]  DQN model instance created
+[deepRL]  DQN script done init
+[cuda]  cudaAllocMapped 49152 bytes, CPU 0x7fc337c00000 GPU 0x7fc337c00000
+[deepRL]  pyTorch THCState  0x947031B0
+[cuda]  cudaAllocMapped 12288 bytes, CPU 0x7fc337e00000 GPU 0x7fc337e00000
+ArmPlugin - allocated camera img buffer 64x64  24 bpp  12288 bytes
+[deepRL]  nn.Conv2d() output size = 800
+Current Accuracy:  1.0000 (001 of 001)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::link2::collision2
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::link2::collision2
+Current Accuracy:  0.5000 (001 of 002)  (reward=-25.00 LOSS)
+Current Accuracy:  0.6667 (002 of 003)  (reward=+100.00 WIN)
+Current Accuracy:  0.7500 (003 of 004)  (reward=+100.00 WIN)
+Current Accuracy:  0.8000 (004 of 005)  (reward=+100.00 WIN)
+Current Accuracy:  0.8333 (005 of 006)  (reward=+100.00 WIN)
+Current Accuracy:  0.8571 (006 of 007)  (reward=+100.00 WIN)
+Current Accuracy:  0.8750 (007 of 008)  (reward=+100.00 WIN)
+Current Accuracy:  0.8889 (008 of 009)  (reward=+100.00 WIN)
+Current Accuracy:  0.9000 (009 of 010)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::link2::collision2
+Current Accuracy:  0.8182 (009 of 011)  (reward=-25.00 LOSS)
+Current Accuracy:  0.8333 (010 of 012)  (reward=+100.00 WIN)
+Current Accuracy:  0.8462 (011 of 013)  (reward=+100.00 WIN)
+Current Accuracy:  0.8571 (012 of 014)  (reward=+100.00 WIN)
+Current Accuracy:  0.8667 (013 of 015)  (reward=+100.00 WIN)
+Current Accuracy:  0.8750 (014 of 016)  (reward=+100.00 WIN)
+Current Accuracy:  0.8824 (015 of 017)  (reward=+100.00 WIN)
+Current Accuracy:  0.8889 (016 of 018)  (reward=+100.00 WIN)
+Current Accuracy:  0.8947 (017 of 019)  (reward=+100.00 WIN)
+Current Accuracy:  0.9000 (018 of 020)  (reward=+100.00 WIN)
+Current Accuracy:  0.9048 (019 of 021)  (reward=+100.00 WIN)
+Current Accuracy:  0.9091 (020 of 022)  (reward=+100.00 WIN)
+Current Accuracy:  0.9130 (021 of 023)  (reward=+100.00 WIN)
+Current Accuracy:  0.9167 (022 of 024)  (reward=+100.00 WIN)
+Current Accuracy:  0.9200 (023 of 025)  (reward=+100.00 WIN)
+Current Accuracy:  0.9231 (024 of 026)  (reward=+100.00 WIN)
+Current Accuracy:  0.9259 (025 of 027)  (reward=+100.00 WIN)
+Current Accuracy:  0.9286 (026 of 028)  (reward=+100.00 WIN)
+Current Accuracy:  0.9310 (027 of 029)  (reward=+100.00 WIN)
+Current Accuracy:  0.9333 (028 of 030)  (reward=+100.00 WIN)
+Current Accuracy:  0.9355 (029 of 031)  (reward=+100.00 WIN)
+Current Accuracy:  0.9375 (030 of 032)  (reward=+100.00 WIN)
+Current Accuracy:  0.9394 (031 of 033)  (reward=+100.00 WIN)
+Current Accuracy:  0.9412 (032 of 034)  (reward=+100.00 WIN)
+Current Accuracy:  0.9429 (033 of 035)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9167 (033 of 036)  (reward=-50.00 LOSS)
+Current Accuracy:  0.9189 (034 of 037)  (reward=+100.00 WIN)
+Current Accuracy:  0.9211 (035 of 038)  (reward=+100.00 WIN)
+Current Accuracy:  0.9231 (036 of 039)  (reward=+100.00 WIN)
+Current Accuracy:  0.9250 (037 of 040)  (reward=+100.00 WIN)
+Current Accuracy:  0.9268 (038 of 041)  (reward=+100.00 WIN)
+Current Accuracy:  0.9286 (039 of 042)  (reward=+100.00 WIN)
+Current Accuracy:  0.9302 (040 of 043)  (reward=+100.00 WIN)
+Current Accuracy:  0.9318 (041 of 044)  (reward=+100.00 WIN)
+Current Accuracy:  0.9333 (042 of 045)  (reward=+100.00 WIN)
+Current Accuracy:  0.9348 (043 of 046)  (reward=+100.00 WIN)
+Current Accuracy:  0.9362 (044 of 047)  (reward=+100.00 WIN)
+Current Accuracy:  0.9375 (045 of 048)  (reward=+100.00 WIN)
+Current Accuracy:  0.9388 (046 of 049)  (reward=+100.00 WIN)
+Current Accuracy:  0.9400 (047 of 050)  (reward=+100.00 WIN)
+Current Accuracy:  0.9412 (048 of 051)  (reward=+100.00 WIN)
+Current Accuracy:  0.9423 (049 of 052)  (reward=+100.00 WIN)
+Current Accuracy:  0.9434 (050 of 053)  (reward=+100.00 WIN)
+Current Accuracy:  0.9444 (051 of 054)  (reward=+100.00 WIN)
+Current Accuracy:  0.9455 (052 of 055)  (reward=+100.00 WIN)
+Current Accuracy:  0.9464 (053 of 056)  (reward=+100.00 WIN)
+Current Accuracy:  0.9474 (054 of 057)  (reward=+100.00 WIN)
+Current Accuracy:  0.9483 (055 of 058)  (reward=+100.00 WIN)
+Current Accuracy:  0.9492 (056 of 059)  (reward=+100.00 WIN)
+Current Accuracy:  0.9500 (057 of 060)  (reward=+100.00 WIN)
+Current Accuracy:  0.9508 (058 of 061)  (reward=+100.00 WIN)
+Current Accuracy:  0.9516 (059 of 062)  (reward=+100.00 WIN)
+Current Accuracy:  0.9524 (060 of 063)  (reward=+100.00 WIN)
+Current Accuracy:  0.9531 (061 of 064)  (reward=+100.00 WIN)
+Current Accuracy:  0.9538 (062 of 065)  (reward=+100.00 WIN)
+Current Accuracy:  0.9545 (063 of 066)  (reward=+100.00 WIN)
+Current Accuracy:  0.9552 (064 of 067)  (reward=+100.00 WIN)
+Current Accuracy:  0.9559 (065 of 068)  (reward=+100.00 WIN)
+Current Accuracy:  0.9565 (066 of 069)  (reward=+100.00 WIN)
+Current Accuracy:  0.9571 (067 of 070)  (reward=+100.00 WIN)
+Current Accuracy:  0.9577 (068 of 071)  (reward=+100.00 WIN)
+Current Accuracy:  0.9583 (069 of 072)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9452 (069 of 073)  (reward=-50.00 LOSS)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9324 (069 of 074)  (reward=-50.00 LOSS)
+Current Accuracy:  0.9333 (070 of 075)  (reward=+100.00 WIN)
+Current Accuracy:  0.9342 (071 of 076)  (reward=+100.00 WIN)
+Current Accuracy:  0.9351 (072 of 077)  (reward=+100.00 WIN)
+Current Accuracy:  0.9359 (073 of 078)  (reward=+100.00 WIN)
+Current Accuracy:  0.9367 (074 of 079)  (reward=+100.00 WIN)
+Current Accuracy:  0.9375 (075 of 080)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9259 (075 of 081)  (reward=-50.00 LOSS)
+Current Accuracy:  0.9268 (076 of 082)  (reward=+100.00 WIN)
+Current Accuracy:  0.9277 (077 of 083)  (reward=+100.00 WIN)
+Current Accuracy:  0.9286 (078 of 084)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9176 (078 of 085)  (reward=-50.00 LOSS)
+Current Accuracy:  0.9186 (079 of 086)  (reward=+100.00 WIN)
+Current Accuracy:  0.9195 (080 of 087)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9091 (080 of 088)  (reward=-50.00 LOSS)
+Current Accuracy:  0.9101 (081 of 089)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.9111 (082 of 090)  (reward=+100.00 WIN)
+GROUND CONTACT, EOE
+Current Accuracy:  0.9011 (082 of 091)  (reward=-100.00 LOSS)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.8913 (082 of 092)  (reward=-50.00 LOSS)
+Current Accuracy:  0.8925 (083 of 093)  (reward=+100.00 WIN)
+Current Accuracy:  0.8936 (084 of 094)  (reward=+100.00 WIN)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.8947 (085 of 095)  (reward=+100.00 WIN)
+Current Accuracy:  0.8958 (086 of 096)  (reward=+100.00 WIN)
+Current Accuracy:  0.8969 (087 of 097)  (reward=+100.00 WIN)
+GROUND CONTACT, EOE
+Current Accuracy:  0.8878 (087 of 098)  (reward=-100.00 LOSS)
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+ArmPlugin - triggering EOE contact between 'tube::tube_link::tube_collision' and 'arm::gripper_middle::middle_collision
+Current Accuracy:  0.8788 (087 of 099)  (reward=-50.00 LOSS)
+Current Accuracy:  0.8800 (088 of 100)  (reward=+100.00 WIN)

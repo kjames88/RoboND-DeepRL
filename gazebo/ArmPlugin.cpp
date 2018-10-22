@@ -26,9 +26,9 @@
 #define ALLOW_RANDOM true
 #define DEBUG_DQN false
 #define GAMMA 0.999f
-#define EPS_START 0.25f
-#define EPS_END 0.01f
-#define EPS_DECAY 10
+#define EPS_START 0.9f
+#define EPS_END 0.05f
+#define EPS_DECAY 200
 
 /*
 / Tune the following hyperparameters
@@ -39,7 +39,7 @@
 #define INPUT_HEIGHT  64
 //#define OPTIMIZER "RMSprop"
 #define OPTIMIZER "Adam"
-#define LEARNING_RATE 0.01f
+#define LEARNING_RATE 0.001f
 #define REPLAY_MEMORY 10000
 #define BATCH_SIZE 32
 #define USE_LSTM false
@@ -64,6 +64,7 @@
 #define COLLISION_FILTER "ground_plane::link::collision"
 #define COLLISION_ITEM   "tube::tube_link::tube_collision"
 #define COLLISION_POINT  "arm::gripperbase::gripper_link"
+#define COLLISION_MIDDLE  "arm::gripper_middle::middle_collision"
 
 // Animation Steps
 #define ANIMATION_STEPS 1000
@@ -284,7 +285,12 @@ void ArmPlugin::onCollisionMsg(ConstContactsPtr &contacts)
                     // collision with some other part of arm:  failure
                     std::cout << "ArmPlugin - triggering EOE contact between '" <<
                            contacts->contact(i).collision1() << "' and '" << contacts->contact(i).collision2() << std::endl;
-                    rewardHistory = REWARD_LOSS;
+                    if (contacts->contact(i).collision2() == COLLISION_MIDDLE ||
+                        contacts->contact(i).collision1() == COLLISION_MIDDLE) {
+                        rewardHistory = REWARD_LOSS / 2;
+                    } else {
+                        rewardHistory = REWARD_LOSS / 4;
+                    }
                     newReward = true;
                     endEpisode = true;
                     return;
@@ -622,7 +628,17 @@ void ArmPlugin::OnUpdate(const common::UpdateInfo& updateInfo)
 		
 		if(!checkGroundContact)
 		{
-			const float distGoal = BoxDistance(gripBBox, propBBox); // compute the reward from distance to the goal
+
+                    float gripXmid = (gripBBox.max.x + gripBBox.min.x) / 2.0;
+                    float gripYmid = (gripBBox.max.y + gripBBox.min.y) / 2.0;
+                    float propXmid = (propBBox.max.x + propBBox.min.x) / 2.0;
+                    float propYmid = (propBBox.max.y + propBBox.min.y) / 2.0;
+                    float d = (gripXmid - propXmid) * (gripXmid - propXmid);
+                    d += (gripYmid - propYmid) * (gripYmid - propYmid);
+                    d += (gripBBox.min.z - propBBox.max.z) * (gripBBox.min.z - propBBox.max.z);
+                    const float distGoal = d;
+
+			//const float distGoal = BoxDistance(gripBBox, propBBox); // compute the reward from distance to the goal
 
 			if(DEBUG){printf("distance('%s', '%s') = %f\n", gripper->GetName().c_str(), prop->model->GetName().c_str(), distGoal);}
 
